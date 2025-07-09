@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 from data.scrape import *
+import plotly.graph_objects as go
+from visualization.mcap_infographic import *
 
 st.title("Reddit: Top 10 Trending Tickers")
 df = fetch_apewisdom_data()
@@ -39,21 +41,12 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
+df2 = fetch_coingecko_data()
+raw_crypto_data = df2.copy()
+raw_crypto_data = raw_crypto_data.drop(columns=["image"])
 
-# st.dataframe(df)
+st.dataframe(raw_crypto_data)
 
 
-# ticker = st.text_input("Enter a stock ticker (e.g., AAPL)")
-
-# if ticker:
-    # st.write(f"Showing data for {ticker}")
-    
-    # Placeholder: Load from local CSV or scrape data
-
-    
-    # # Example: Top holders
-    # top_holders = df.sort_values("Market Value", ascending=False).head(10)
-    # fig, ax = plt.subplots()
-    # ax.barh(top_holders["Fund"], top_holders["Market Value"])
-    # st.pyplot(fig)
-
+    # Show it in Streamlit
+st.plotly_chart(mcap_ig(df2), key="market_cap_infographic")
