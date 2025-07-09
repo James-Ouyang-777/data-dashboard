@@ -4,49 +4,38 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from data.scrape import *
 import plotly.graph_objects as go
-from visualization.mcap_infographic import *
+from visualization.infographics import *
 
-st.title("Reddit: Top 10 Trending Tickers")
+st.set_page_config(layout="wide")
+
+# Fetch data
 df = fetch_apewisdom_data()
+df2 = fetch_coingecko_data()
+
+# Prepare DataFrame 1 (Ape Wisdom)
 df.set_index('rank', inplace=True)
 df = df.head(10).copy()
-df_top10 = df.head(10).copy()
-df_top10["mention_upvote_ratio"] = df_top10["mentions"] / df_top10["upvotes"]
-df_sorted = df_top10.sort_values(by="mention_upvote_ratio", ascending=False)
 
-# Display table
-st.dataframe(df)
-
-# Plot with custom color gradient (green = good, red = bad)
-st.subheader("Mention-to-Upvote Ratio (Top 10 Tickers)")
-fig = px.bar(
-    df_sorted,
-    x="ticker",
-    y="mention_upvote_ratio",
-    color="mention_upvote_ratio",
-    color_continuous_scale="RdYlGn",  # Red -> Yellow -> Green
-    labels={"mention_upvote_ratio": "Mentions / Upvotes"},
-    title="Mention-to-Upvote Ratio by Ticker",
-    text="mention_upvote_ratio"
-)
-
-fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-fig.update_layout(
-    yaxis=dict(title="Ratio"),
-    xaxis=dict(title="Ticker"),
-    coloraxis_colorbar=dict(title="Ratio"),
-    uniformtext_minsize=8
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
-
-df2 = fetch_coingecko_data()
+# Prepare DataFrame 2 (Coingecko)
 raw_crypto_data = df2.copy()
 raw_crypto_data = raw_crypto_data.drop(columns=["image"])
 
-st.dataframe(raw_crypto_data)
+# --- Row 1: Graphs side by side ---
+col1, col2 = st.columns(2)
 
+with col1:
+    st.subheader("Reddit: Top 10 Trending Tickers")
+    st.plotly_chart(upvote_ratio(df), use_container_width=True)
 
-    # Show it in Streamlit
-st.plotly_chart(mcap_ig(df2), key="market_cap_infographic")
+with col2:
+    st.subheader("Top 50 Cryptos by Market Cap")
+    st.plotly_chart(mcap_ig(df2), use_container_width=True, key="market_cap_infographic")
+
+# --- Row 2: DataFrames side by side ---
+col3, col4 = st.columns(2)
+
+with col3:
+    st.dataframe(df)
+
+with col4:
+    st.dataframe(raw_crypto_data)
