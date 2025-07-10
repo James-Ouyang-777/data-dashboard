@@ -11,7 +11,7 @@ def get_price_info():
     response = requests.request("GET", url)
     info = json.loads(response.text)
     data = info['data']
-    print('index_price: ', data['index_price'], '   mark_price: ', data['mark_price'])
+    # print('index_price: ', data['index_price'], '   mark_price: ', data['mark_price'])
     return data['mark_price'], data['index_price']  #target price quote
 
 

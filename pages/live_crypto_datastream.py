@@ -9,7 +9,7 @@ st.set_page_config(
     layout="wide"
 )
 st.title("📡 Live Crypto Chart")
-st_autorefresh(interval=3000, limit=None, key="autorefresh")
+st_autorefresh(interval=1000, limit=None, key="autorefresh")
 
 render_live_price_chart(symbol="PERP_BTC_USDC")
 

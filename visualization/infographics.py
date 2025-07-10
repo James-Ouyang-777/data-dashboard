@@ -16,10 +16,10 @@ def mcap_ig(df):
 
     top_df['size'] = top_df['log_cap'] / max_log_cap  # scaled to 0–1
 
-    top_df['x'] = range(len(top_df))  # Even spacing
-    top_df['y'] = [1] * len(top_df)
+    top_df.loc[:, 'x'] = range(len(top_df))  # Even spacing
+    top_df.loc[:, 'y'] = [1] * len(top_df)
 
-    print(top_df)
+    # print(top_df)
 
     # Create Plotly figure
     fig = go.Figure()
