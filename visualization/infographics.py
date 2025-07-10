@@ -63,27 +63,34 @@ def mcap_ig(df):
 
 
 def upvote_ratio(df):
+    # print(df)
+    if df.empty or "mentions" not in df.columns or "upvotes" not in df.columns:
+        st.warning("Missing data for mentions/upvotes.")
+        return go.Figure()
+
     df_top10 = df.head(10).copy()
-    df_top10["mention_upvote_ratio"] = df_top10["mentions"] / df_top10["upvotes"]
+    # print(df_top10)
+    df_top10 = df_top10[df_top10["upvotes"] > 0]  # Avoid division errors
+    df_top10["mention_upvote_ratio"] = df_top10["upvotes"] / df_top10["mentions"]
+
     df_sorted = df_top10.sort_values(by="mention_upvote_ratio", ascending=False)
-    # Plot with custom color gradient (green = good, red = bad)
-    # st.subheader("Mention-to-Upvote Ratio (Top 10 Tickers)")
+
     fig = px.bar(
         df_sorted,
         x="ticker",
         y="mention_upvote_ratio",
         color="mention_upvote_ratio",
-        color_continuous_scale="RdYlGn",  # Red -> Yellow -> Green
+        color_continuous_scale="RdYlGn",
         labels={"mention_upvote_ratio": "Mentions / Upvotes"},
-        title="Mention-to-Upvote Ratio by Ticker",
+        title="Upvotes per Mention by Ticker",
         text="mention_upvote_ratio"
     )
 
     fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
     fig.update_layout(
-        yaxis=dict(title="Ratio"),
-        xaxis=dict(title="Ticker"),
-        coloraxis_colorbar=dict(title="Ratio"),
+        yaxis_title="Ratio",
+        xaxis_title="Ticker",
+        coloraxis_colorbar_title="Ratio",
         uniformtext_minsize=8
     )
 

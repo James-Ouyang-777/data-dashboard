@@ -120,8 +120,8 @@ def render_live_price_chart(symbol="PERP_SOL_USDC", max_points=100):
     # Plot
     df = pd.DataFrame(st.session_state.price_history)
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df["Time"], y=df["Mark Price"], mode='lines', name='Mark Price'))
-    fig.add_trace(go.Scatter(x=df["Time"], y=df["Index Price"], mode='lines', name='Index Price'))
+    fig.add_trace(go.Scatter(x=df["Time"], y=df["Mark Price"], mode='lines', name='Futures Price'))
+    fig.add_trace(go.Scatter(x=df["Time"], y=df["Index Price"], mode='lines', name='Spot Price'))
     fig.update_layout(title=f"{symbol} Price Chart", xaxis_title="Time (s)", yaxis_title="Price")
     st.plotly_chart(fig, use_container_width=True)
 

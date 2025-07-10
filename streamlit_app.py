@@ -32,7 +32,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Reddit: Top 10 Trending Tickers")
-    st.plotly_chart(upvote_ratio(df), use_container_width=True)
+    st.plotly_chart(upvote_ratio(df), use_container_width=True, key=f"chart_{int(time.time())}")
 
 with col2:
     st.subheader("Top Cryptos by Market Cap")
