@@ -67,7 +67,7 @@ def upvote_ratio(df):
     df_top10["mention_upvote_ratio"] = df_top10["mentions"] / df_top10["upvotes"]
     df_sorted = df_top10.sort_values(by="mention_upvote_ratio", ascending=False)
     # Plot with custom color gradient (green = good, red = bad)
-    st.subheader("Mention-to-Upvote Ratio (Top 10 Tickers)")
+    # st.subheader("Mention-to-Upvote Ratio (Top 10 Tickers)")
     fig = px.bar(
         df_sorted,
         x="ticker",

@@ -1,12 +1,18 @@
+# streamlit_app.py
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 from data.scrape import *
 import plotly.graph_objects as go
+from visualization.helpers import *
 from visualization.infographics import *
 
-st.set_page_config(layout="wide")
+
+
+st.set_page_config(page_title="Home", page_icon="🏠", layout='wide')
+# st.title("🏠 Home Dashboard")
 
 # Fetch data
 df = fetch_apewisdom_data()
@@ -20,6 +26,7 @@ df = df.head(10).copy()
 raw_crypto_data = df2.copy()
 raw_crypto_data = raw_crypto_data.drop(columns=["image"])
 
+
 # --- Row 1: Graphs side by side ---
 col1, col2 = st.columns(2)
 
@@ -28,14 +35,14 @@ with col1:
     st.plotly_chart(upvote_ratio(df), use_container_width=True)
 
 with col2:
-    st.subheader("Top 50 Cryptos by Market Cap")
+    st.subheader("Top Cryptos by Market Cap")
     st.plotly_chart(mcap_ig(df2), use_container_width=True, key="market_cap_infographic")
 
 # --- Row 2: DataFrames side by side ---
-col3, col4 = st.columns(2)
-
-with col3:
-    st.dataframe(df)
+col4, col5 = st.columns(2)
 
 with col4:
+    st.dataframe(df)
+
+with col5:
     st.dataframe(raw_crypto_data)
