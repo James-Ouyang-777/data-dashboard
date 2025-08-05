@@ -1,8 +1,8 @@
 streamlit
 pandas
 matplotlib
-requests 
-beautifulsoup4 
-pandas
+requests
+beautifulsoup4
 plotly
 streamlit_autorefresh
+yfinance
