@@ -14,4 +14,5 @@
 
 3. In the Streamlit sidebar, open the **"GDP & FX Explorer"** page to visualize
    historical GDP data for any country and compare currency valuations between
-   major pairs.
+   major pairs. You can also explore the **"Options Volatility Surface"** page
+   to view a 3D surface of implied volatility across strikes and expirations.
